@@ -1,5 +1,6 @@
 import './style/main.css'
 import * as THREE from 'three'
+import { makeShipShape } from './js/ship/2dShip'
 
 /**
  * Sizes
@@ -33,10 +34,6 @@ const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 
 camera.position.z = 3
 scene.add(camera)
 
-// Test
-const cube = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1), new THREE.MeshNormalMaterial())
-scene.add(cube)
-
 // Renderer
 const renderer = new THREE.WebGLRenderer({
     canvas: document.querySelector('.webgl')
@@ -44,14 +41,13 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setPixelRatio(window.devicePixelRatio)
 renderer.setSize(sizes.width, sizes.height)
 
+console.log(makeShipShape())
+
 /**
  * Loop
  */
 const loop = () =>
 {
-    // Update
-    cube.rotation.y += 0.01
-
     // Render
     renderer.render(scene, camera)
 
