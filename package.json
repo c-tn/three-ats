@@ -7,16 +7,9 @@
     "build": "webpack --config ./bundler/webpack.prod.js",
     "dev": "webpack-dev-server --config ./bundler/webpack.dev.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/brunosimon/webpack-three-js-template.git"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/brunosimon/webpack-three-js-template/issues"
-  },
   "homepage": "https://github.com/brunosimon/webpack-three-js-template#readme",
   "devDependencies": {
     "@babel/core": "^7.19.6",

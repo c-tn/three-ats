@@ -1,6 +1,8 @@
 import './style/main.css'
 import * as THREE from 'three'
-import { makeShipShape } from './js/ship/2dShip'
+import { makeShipModel } from './js/ship/makeShipModel'
+import { ShipEntity } from './js/ship/ShipEntity'
+import { ShipMovement } from './js/control/shipMovement'
 
 /**
  * Sizes
@@ -24,7 +26,7 @@ window.addEventListener('resize', () =>
 })
 
 /**
- * Environnements
+ * Environments
  */
 // Scene
 const scene = new THREE.Scene()
@@ -41,13 +43,19 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setPixelRatio(window.devicePixelRatio)
 renderer.setSize(sizes.width, sizes.height)
 
-console.log(makeShipShape())
+const player = new ShipMovement(new ShipEntity({
+    model: makeShipModel('123'),
+}))
+
+scene.add(player.shipEntity.model)
 
 /**
  * Loop
  */
 const loop = () =>
 {
+    player.update()
+
     // Render
     renderer.render(scene, camera)
 
