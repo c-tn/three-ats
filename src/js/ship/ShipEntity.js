@@ -1,10 +1,11 @@
 export class ShipEntity {
     angle = 0
 
-    maxSpeed = 5
-    maxBackwardSpeed = -2
+    maxSpeed = 0.5
+    maxBackwardSpeed = -0.1
     currentSpeed = 0
-    speedBoost = 0.001
+    speedBoost = 0.003
+    stopSpeed = 0.006
 
     rotateSpeed = 0.04
 
@@ -29,7 +30,7 @@ export class ShipEntity {
     }
 
     decreaseSpeed() {
-        this.currentSpeed -= this.speedBoost
+        this.currentSpeed -= this.currentSpeed > 0 ? this.speedBoost : this.stopSpeed
 
         if (this.currentSpeed <= this.maxBackwardSpeed) {
             this.currentSpeed = this.maxBackwardSpeed

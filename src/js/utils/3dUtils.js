@@ -10,16 +10,23 @@ export function create3DShape(data) {
     }
 
     const geometry = new THREE.ExtrudeBufferGeometry(shape, {
-        depth: data.h || 0.1,
+        depth: data.h,
         steps: 1,
         bevelEnabled: data.bevel,
-        bevelThickness: 0.05,
-        bevelSize: 0.05,
+        bevelThickness: 0.001,
+        bevelSize: 0.001,
         bevelOffset: 0,
         bevelSegments: 1,
     })
-    const material = new THREE.MeshBasicMaterial({ color: data.color })
-    const mesh = new THREE.Mesh(geometry, [ material ])
+
+    const material = new THREE.MeshStandardMaterial({
+        color: data.color,
+    })
+
+    const mesh = new THREE.Mesh(geometry, material)
+
+    mesh.receiveShadow = true
+    mesh.castShadow = true
 
     return mesh
 }

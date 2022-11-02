@@ -19,9 +19,9 @@ export function makeShipShape(seed = '') {
         { X: 0, Y: randomBetween.getValue(1, 1.1) - yOffset },
     ]
   
-    cabin.color = getRandomColor(pseudoRandom.getValue())
-    cabin.h = 0.3
     const cabinMirrored = mirror(cabin)
+    cabin.color = getRandomColor(pseudoRandom.getValue())
+    cabin.h = 0.15
 
     const wing1 = [
         { X: 0 - cabinOffset, Y: randomBetween.getValue(0.2, 0.75) - yOffset },
@@ -32,7 +32,7 @@ export function makeShipShape(seed = '') {
   
     const wing1Mirrored = mirror(wing1)
     wing1.color = getRandomColor(pseudoRandom.getValue())
-    wing1.h = wing1Mirrored.h = 0.1
+    wing1.h = 0.1
   
     const wingOffset = pseudoRandom.getValue() > 0.7 ? randomBetween.getValue(0, 0.1) : 0
   
@@ -45,7 +45,7 @@ export function makeShipShape(seed = '') {
   
     const wing2Mirrored = mirror(wing2)
     wing2.color = getRandomColor(pseudoRandom.getValue())
-    wing2.h = wing2Mirrored.h = 0.1
+    wing2.h = 0.1
   
     const wing3 = [
         cabin[1],
@@ -55,7 +55,7 @@ export function makeShipShape(seed = '') {
   
     const wing3Mirrored = mirror(wing3)
     wing3.color = cabin.color
-    wing3.h = wing3Mirrored.h = 0.05
+    wing3.h = 0.05
 
     const shapes = [
         cabin, cabinMirrored,
