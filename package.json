@@ -31,6 +31,7 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
+    "dat.gui": "^0.7.9",
     "three-noise": "^1.1.2"
   }
 }

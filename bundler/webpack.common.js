@@ -9,7 +9,6 @@ module.exports = {
         filename: 'bundle.[hash].js',
         path: path.resolve(__dirname, '../dist')
     },
-    devtool: 'source-map',
     plugins:
     [
         new CopyWebpackPlugin([ { from: path.resolve(__dirname, '../static') } ]),
