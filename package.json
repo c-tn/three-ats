@@ -32,6 +32,6 @@
   },
   "dependencies": {
     "dat.gui": "^0.7.9",
-    "three-noise": "^1.1.2"
+    "simplex-noise": "^4.0.1"
   }
 }

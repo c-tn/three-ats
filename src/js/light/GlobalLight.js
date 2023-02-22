@@ -4,7 +4,7 @@ export class GlobalLight {
     directionalLight = null
     ambientLight = null
     time = 0
-    timeSpeed = 0.003
+    timeSpeed = 0
     sunDistance = 100
     PI2 = Math.PI * 2
 

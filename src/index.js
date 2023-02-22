@@ -4,7 +4,7 @@ import './style/main.css'
 import { makeShipModel } from './js/ship/makeShipModel'
 import { ShipEntity } from './js/ship/ShipEntity'
 import { ShipMovement } from './js/control/shipMovement'
-import { initTerrain, updateTerrain } from './js/terrain/terrainGenerator'
+import { makeTerrain, checkPositionOnChunk } from './js/terrain/terrainGenerator'
 import { GlobalLight } from './js/light/GlobalLight'
 
 const sizes = {}
@@ -39,8 +39,7 @@ const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 
 scene.add(camera)
 
 // Terrain
-const chunksList = initTerrain()
-chunksList.forEach(chunk => {
+makeTerrain().forEach(chunk => {
     scene.add(chunk)
 })
 
@@ -88,13 +87,11 @@ const loop = () =>
     globalLight.update(playerPosition.x, playerPosition.y)
 
     debugWindow.innerText = `x: ${playerPosition.x.toFixed(2)}, y: ${playerPosition.y.toFixed(2)}`
-    const newChunks = updateTerrain(playerPosition.x, playerPosition.y)
+    const newChunks = checkPositionOnChunk(playerPosition.x, playerPosition.y)
 
-    if (newChunks) {
-        newChunks.forEach(chunk => {
-            scene.add(chunk)
-        })
-    }
+    newChunks?.forEach(chunk => {
+        scene.add(chunk)
+    })
 
     renderer.render(scene, camera)
     window.requestAnimationFrame(loop)
