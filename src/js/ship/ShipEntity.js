@@ -81,10 +81,5 @@ export class ShipEntity {
         this.model.position.y += Math.sin(this.getAngle() + Math.PI / 2) * this.currentSpeed
 
         this.model.rotation.z = this.angle
-
-        if (this.hp <= 0) {
-            game.scene.remove(this.model)
-            store.modules.ships.remove(this.id)
-        }
     }
 }

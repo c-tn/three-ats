@@ -1,12 +1,19 @@
 import { distance } from "../utils/math"
+import { store } from "../store/Store"
+import { TargetIndicator } from "../ui/TargetIndicator"
+import game from './../../index'
 
 export class ShipAI {
   shipEntity = null
   action = null
   target = null
+  indicator = null
+  id = null
 
   constructor(shipEntity) {
+    this.id = shipEntity.id
     this.shipEntity = shipEntity
+    this.indicator = new TargetIndicator(shipEntity.position, store.modules.ships.ships[0].shipEntity.position)
   }
 
   get model() {
@@ -62,8 +69,15 @@ export class ShipAI {
 
   update() {
     this.shipEntity.update()
+    this.indicator.update()
     if (this.action === 'move') {
       this.moveTo(this.target)
+    }
+
+    if (this.shipEntity.hp <= 0) {
+      game.scene.remove(this.shipEntity.model)
+      game.scene.remove(this.indicator.entity)
+      store.modules.ships.remove(this.id)
     }
   }
 }

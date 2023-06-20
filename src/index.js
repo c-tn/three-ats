@@ -10,6 +10,7 @@ import { GlobalLight } from './js/light/GlobalLight'
 import { LaserWeapon } from './js/weapons/Laser'
 import { store } from './js/store/Store'
 import { createAIShip } from './js/utils/ship'
+import { TargetIndicator } from './js/ui/TargetIndicator'
 
 const sizes = {}
 sizes.width = window.innerWidth
@@ -76,15 +77,6 @@ player.shipEntity.model.position.setY(0)
 scene.add(player.shipEntity.model)
 store.modules.ships.add(player)
 
-
-for (let i = 0; i < 20; i++) {
-    // const x = Math.random() * 100 - 50
-    // const y = Math.random() * 100 - 50
-    // const ship = createAIShip({ x, y})
-    // ship.setAction('move', player.shipEntity.model.position)
-    // scene.add(ship.shipEntity.model)
-}
-
 // Light
 const globalLight = new GlobalLight()
 const { ambientLight, directionalLight } = globalLight.init()
@@ -131,7 +123,19 @@ const loop = () =>
     stats.update()
     window.requestAnimationFrame(loop)
 }
-loop()
+
+function init() {
+    for (let i = 0; i < 2; i++) {
+        const x = Math.random() * 100 - 50
+        const y = Math.random() * 100 - 50
+        const ship = createAIShip({ x, y })
+        ship.setAction('move', player.shipEntity.model.position)
+        scene.add(ship.shipEntity.model)
+    }
+    loop()
+}
+
+requestAnimationFrame(init)
 
 export default {
     scene
