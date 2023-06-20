@@ -4,7 +4,7 @@ export class GlobalLight {
     directionalLight = null
     ambientLight = null
     time = 1
-    timeSpeed = 0.00001
+    timeSpeed = 0.001
     sunDistance = 100
     PI2 = Math.PI * 2
 
@@ -13,14 +13,15 @@ export class GlobalLight {
     }
 
     init() {
-        this.ambientLight = new THREE.AmbientLight(0xffffff, 0.4)
+        this.ambientLight = new THREE.AmbientLight(0xffffff, 0.3)
         this.ambientLight.position.z = 3
 
-        this.directionalLight = new THREE.DirectionalLight(0xffffff, 0.8)
+        this.directionalLight = new THREE.DirectionalLight(0xffffff, 0.7)
         this.directionalLight.position.set(2, 0, 10)
+        this.directionalLight.castShadow = true
         this.directionalLight.shadow.mapSize.width = 2048
         this.directionalLight.shadow.mapSize.height = 2048
-
+        
         const d = 15
         this.directionalLight.shadow.camera.left = - d
         this.directionalLight.shadow.camera.right = d

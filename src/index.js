@@ -71,19 +71,19 @@ const player = new ShipController(
     ]
 )
 player.shipEntity.model.position.setZ(3)
-player.shipEntity.model.position.setX(14)
-player.shipEntity.model.position.setY(14)
+player.shipEntity.model.position.setX(0)
+player.shipEntity.model.position.setY(0)
 scene.add(player.shipEntity.model)
 store.modules.ships.add(player)
 
 
-// for (let i = 0; i < 20; i++) {
-//     const x = Math.random() * 500 - 250
-//     const y = Math.random() * 500 - 250
-//     const ship = createAIShip({ x, y})
-//     ship.setAction('move', player.shipEntity.model.position)
-//     scene.add(ship.shipEntity.model)
-// }
+for (let i = 0; i < 20; i++) {
+    // const x = Math.random() * 100 - 50
+    // const y = Math.random() * 100 - 50
+    // const ship = createAIShip({ x, y})
+    // ship.setAction('move', player.shipEntity.model.position)
+    // scene.add(ship.shipEntity.model)
+}
 
 // Light
 const globalLight = new GlobalLight()

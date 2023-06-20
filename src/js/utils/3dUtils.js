@@ -25,7 +25,6 @@ export function create3DShape(data) {
 
     const mesh = new THREE.Mesh(geometry, material)
 
-    mesh.receiveShadow = true
     mesh.castShadow = true
 
     return mesh
