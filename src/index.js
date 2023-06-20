@@ -1,11 +1,15 @@
 import * as THREE from 'three'
 import { GUI } from 'dat.gui'
+import Stats from 'stats.js'
 import './style/main.css'
 import { makeShipModel } from './js/ship/makeShipModel'
 import { ShipEntity } from './js/ship/ShipEntity'
-import { ShipMovement } from './js/control/shipMovement'
+import { ShipController, ShipAI } from './js/control/index'
 import { makeTerrain, checkPositionOnChunk } from './js/terrain/terrainGenerator'
 import { GlobalLight } from './js/light/GlobalLight'
+import { LaserWeapon } from './js/weapons/Laser'
+import { store } from './js/store/Store'
+import { createAIShip } from './js/utils/ship'
 
 const sizes = {}
 sizes.width = window.innerWidth
@@ -44,20 +48,42 @@ makeTerrain().forEach(chunk => {
 })
 
 // Player
-const player = new ShipMovement(new ShipEntity({
+const playerShip = new ShipEntity({
     model: makeShipModel(Math.random().toString()),
-}))
-// player.shipEntity.model.position.setX(-15)
-// player.shipEntity.model.position.setY(-15)
-player.shipEntity.model.position.setZ(3)
-scene.add(player.shipEntity.model)
-
-const ship = new ShipEntity({
-    model: makeShipModel(Math.random().toString()),
+    id: 0
 })
-ship.model.position.setZ(3)
-ship.model.position.setX(3)
-scene.add(ship.model)
+
+const player = new ShipController(
+    playerShip,
+    [
+        new LaserWeapon({
+            name: 'Laser',
+            reloading: 600,
+            offset: 0.3,
+            owner: playerShip.id,
+        }),
+        new LaserWeapon({
+            name: 'Laser',
+            reloading: 400,
+            offset: -0.3,
+            owner: playerShip.id,
+        }),
+    ]
+)
+player.shipEntity.model.position.setZ(3)
+player.shipEntity.model.position.setX(14)
+player.shipEntity.model.position.setY(14)
+scene.add(player.shipEntity.model)
+store.modules.ships.add(player)
+
+
+// for (let i = 0; i < 20; i++) {
+//     const x = Math.random() * 500 - 250
+//     const y = Math.random() * 500 - 250
+//     const ship = createAIShip({ x, y})
+//     ship.setAction('move', player.shipEntity.model.position)
+//     scene.add(ship.shipEntity.model)
+// }
 
 // Light
 const globalLight = new GlobalLight()
@@ -74,19 +100,26 @@ lightFolder.open()
 
 const debugWindow = document.getElementById('debug')
 
+const stats = new Stats()
+stats.showPanel(0)
+document.body.appendChild(stats.domElement)
+
 // Loop
 const loop = () =>
 {
     const playerPosition = player.shipEntity.model.position
 
-    player.update()
+    store.modules.ships.ships.forEach(s => s.update())
+
     camera.position.setX(playerPosition.x)
     camera.position.setY(playerPosition.y)
     camera.position.setZ(10)
 
+    store.modules.bullets.update()
+
     globalLight.update(playerPosition.x, playerPosition.y)
 
-    debugWindow.innerText = `x: ${playerPosition.x.toFixed(2)}, y: ${playerPosition.y.toFixed(2)}`
+    debugWindow.innerText = `x: ${playerPosition.x.toFixed(2)}, y: ${playerPosition.y.toFixed(2)} speed: ${player.shipEntity.currentSpeed.toFixed(2)}`
     const newChunks = checkPositionOnChunk(playerPosition.x, playerPosition.y)
 
     newChunks?.forEach(chunk => {
@@ -94,6 +127,12 @@ const loop = () =>
     })
 
     renderer.render(scene, camera)
+
+    stats.update()
     window.requestAnimationFrame(loop)
 }
 loop()
+
+export default {
+    scene
+}

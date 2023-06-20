@@ -20,8 +20,8 @@ html {
 
 #debug {
     position: absolute;
-    top: 1rem;
-    left: 1rem;
+    top: 3rem;
+    left: 0rem;
     padding: 1rem;
     background-color: rgba(0, 0, 0, .5);
     color: #fff;

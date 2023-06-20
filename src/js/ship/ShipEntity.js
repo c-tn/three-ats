@@ -1,4 +1,10 @@
+import game from './../../index'
+import { store } from '../store/Store'
+
+const PI2 = Math.PI * 2
 export class ShipEntity {
+    id = null
+
     angle = 0
 
     maxSpeed = 0.5
@@ -9,9 +15,12 @@ export class ShipEntity {
 
     rotateSpeed = 0.04
 
+    hp = 100
+
     model = null
 
     constructor(data) {
+        this.id = data.id
         this.model = data.model
 
         this.maxSpeed = data.maxSpeed || this.maxSpeed
@@ -19,6 +28,10 @@ export class ShipEntity {
         this.speedBoost = data.speedBoost || this.speedBoost
 
         this.rotateSpeed = data.rotateSpeed || this.rotateSpeed
+    }
+
+    get position() {
+        return this.model.position
     }
 
     increaseSpeed() {
@@ -37,17 +50,26 @@ export class ShipEntity {
         }
     }
 
-    stopSpeed() {
+    fullStop() {
         if (this.currentSpeed > 0) this.decreaseSpeed()
         if (this.currentSpeed < 0) this.increaseSpeed()
+
+        if (Math.abs(this.currentSpeed) <= this.stopSpeed) {
+            this.currentSpeed = 0
+        }
     }
 
     rotateLeft() {
         this.angle += this.rotateSpeed
+
+        if (this.angle > PI2 * 2) this.angle -= PI2 * 2
     }
 
     rotateRight() {
         this.angle -= this.rotateSpeed
+
+        if (this.angle < 0) this.angle += PI2 * 2
+
     }
 
     getAngle() {
@@ -59,5 +81,10 @@ export class ShipEntity {
         this.model.position.y += Math.sin(this.getAngle() + Math.PI / 2) * this.currentSpeed
 
         this.model.rotation.z = this.angle
+
+        if (this.hp <= 0) {
+            game.scene.remove(this.model)
+            store.modules.ships.remove(this.id)
+        }
     }
 }

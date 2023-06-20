@@ -44,16 +44,16 @@ export function makeTerrain(x = 0, y = 0) {
 export function generateTerrain(x, y) {
     const geometry = new THREE.PlaneGeometry(chunkSize, chunkSize, 60, 60)
 
-    geometry.vertices.map(vertices => {
-        if (Math.abs(vertices.x) > 14 || Math.abs(vertices.y) > 14) {
-            vertices.z = noise3D(0, 0, 0)
-            return
-        }
-
-        vertices.z = noise3D(vertices.x + x, vertices.y + y, 0) * 0.1
-    })
+    const planePositions = geometry.getAttribute('position')
+    const planeNormals = geometry.getAttribute('normal')
     
-    geometry.computeVertexNormals()
+    for (let i = 0; i < planePositions.array.length; i += 3) {
+        const noiseValue = noise3D(planePositions.array[i] + x, planePositions.array[i + 1] + y, 0) * 0.2
+        planePositions.array[i + 2] = noiseValue
+        planeNormals.array[i] = noiseValue
+    }
+
+    // geometry.computeVertexNormals()
 
     const texture = new THREE.TextureLoader().load('img/sand.jpeg')
 
@@ -61,6 +61,7 @@ export function generateTerrain(x, y) {
     texture.repeat.set(4, 4)
 
     const material = new THREE.MeshStandardMaterial({
+        side: THREE.DoubleSide,
         map: texture,
     })
 
@@ -70,6 +71,8 @@ export function generateTerrain(x, y) {
     terrain.position.setY(y)
 
     terrain.receiveShadow = true
+
+    terrain.name = 'terrain'
 
     return terrain
 }
