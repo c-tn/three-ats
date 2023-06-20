@@ -13,10 +13,10 @@ export class GlobalLight {
     }
 
     init() {
-        this.ambientLight = new THREE.AmbientLight(0xffffff, 0.3)
+        this.ambientLight = new THREE.AmbientLight(0xffffff, 0.4)
         this.ambientLight.position.z = 3
 
-        this.directionalLight = new THREE.DirectionalLight(0xffffff, 0.7)
+        this.directionalLight = new THREE.DirectionalLight(0xffffff, 0.8)
         this.directionalLight.position.set(2, 0, 10)
         this.directionalLight.castShadow = true
         this.directionalLight.shadow.mapSize.width = 2048

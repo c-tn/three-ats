@@ -2,6 +2,8 @@ import * as THREE from 'three'
 import { createNoise3D } from 'simplex-noise'
 
 const noise3D = createNoise3D()
+const textures = ['img/sand.jpeg', 'img/gray-sand.jpeg', 'img/grass.avif']
+const textureIdx = ~~(textures.length * Math.random()) 
 
 let chunksList = []
 const chunkSize = 30
@@ -54,8 +56,7 @@ export function generateTerrain(x, y) {
     }
 
     // geometry.computeVertexNormals()
-
-    const texture = new THREE.TextureLoader().load('img/sand.jpeg')
+    const texture = new THREE.TextureLoader().load(textures[textureIdx])
 
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping
     texture.repeat.set(4, 4)
